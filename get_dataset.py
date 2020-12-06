@@ -7,7 +7,7 @@ from tensorflow.keras import layers, models, regularizers
 from tqdm import tqdm
 from vad import VoiceActivityDetector
 import matplotlib.pyplot as plt
-DataSetPath = "/Users/yannickstrumpler/Documents/Studium/MLoMCU/Lab2/hey_snips_research_6k_en_train_eval_clean_ter/"
+DataSetPath = "/content/drive/MyDrive/Datasets/hey_snips_research_6k_en_train_eval_clean_ter/"
 
 with open(DataSetPath+"train.json") as jsonfile:
     traindata = json.load(jsonfile)

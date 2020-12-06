@@ -22,11 +22,10 @@ import pickle
 from model import get_tcn
 import matplotlib.pyplot as plt
 from python_speech_features.base import logfbank
-
+path = "/content/drive/MyDrive/Datasets/hey_snips_research_6k_en_train_eval_clean_ter/"
 try:
-  x_train_mfcc , y_train = pickle.load( open( "train_set.p", "rb" ))
-  x_test_mfcc, y_test = pickle.load(open("test_set.p", "rb"))
-  assert 0
+  x_train_mfcc , y_train = pickle.load( open(path + "train_set.p", "rb" ))
+  x_test_mfcc, y_test = pickle.load(open(path + "test_set.p", "rb"))
 except:
   x_train, y_train, x_test, y_test = load_data_time_series()
   #x_train, y_train, x_test, y_test = load_data_fixed_length()
@@ -35,15 +34,15 @@ except:
   x_test_mfcc = np.array(list(map(lambda x: logfbank(x), x_test)))
   pickle.dump((x_test_mfcc, y_test), open("test_set.p", "wb"))
 
-plt.figure()
-for i in range(100):
-  plt.plot(np.mean(x_train_mfcc[i], axis=-2), label='data', alpha=0.7)
-  plt.plot(y_train[i], label='bool_audio')
-  plt.legend()
-  plt.show()
+# plt.figure()
+# for i in range(100):
+#   plt.plot(np.mean(x_train_mfcc[i], axis=-2), label='data', alpha=0.7)
+#   plt.plot(y_train[i], label='bool_audio')
+#   plt.legend()
+#   plt.show()
 
 
-batchSize = 10
+batchSize = 16
 epochs = 50
 trainsize = 10000
 
@@ -146,3 +145,4 @@ score = model.evaluate(test_set, y_test)
 pred = np.squeeze(model.predict(test_set))
 #print(x_train_mfcc.shape)
 #print(x_test_mfcc.shape)
+model.save("MFCCmodel.h5")
