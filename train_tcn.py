@@ -7,10 +7,10 @@ from tensorflow.keras import layers, models, regularizers
 from tqdm import tqdm
 # Import mlcompute module to use the optional set_mlc_device API for device selection with ML Compute.
 #Import mlcompute module to use the optional set_mlc_device API for device selection with ML Compute.
-from tensorflow.python.compiler.mlcompute import mlcompute
-
-# Select CPU device.
-mlcompute.set_mlc_device(device_name='gpu')
+# from tensorflow.python.compiler.mlcompute import mlcompute
+#
+# # Select CPU device.
+# mlcompute.set_mlc_device(device_name='gpu')
 import sys
 sys.path.append('keras-tcn')
 
@@ -26,7 +26,7 @@ from python_speech_features.base import logfbank
 try:
   x_train_mfcc , y_train = pickle.load( open( "train_set.p", "rb" ))
   x_test_mfcc, y_test = pickle.load(open("test_set.p", "rb"))
-  assert 0
+  #assert 1
 except:
   x_train, y_train, x_test, y_test = load_data_time_series()
   #x_train, y_train, x_test, y_test = load_data_fixed_length()
@@ -37,7 +37,7 @@ except:
 
 plt.figure()
 for i in range(100):
-  plt.plot(np.mean(x_train_mfcc[i], axis=-2), label='data', alpha=0.7)
+  plt.plot(np.mean(x_train_mfcc[i], axis=-1), label='data', alpha=0.7)
   plt.plot(y_train[i], label='bool_audio')
   plt.legend()
   plt.show()

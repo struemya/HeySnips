@@ -57,13 +57,13 @@ def load_data_time_series():
 
         fs, train_sound_data = wavfile.read(filename) # Read wavfile to extract amplitudes
 
-        _x_train = train_sound_data.copy() # Get a mutable copy of the wavfile
+        _x_train = train_sound_data#.copy() # Get a mutable copy of the wavfile
 
         label = traindata[i]['is_hotword']  # Read label
         label_vec = np.full(int(sliceLength / segmentLength), 0)
         if label:
             is_audio = detect_audio(train_sound_data)
-            is_audio_subsampled = is_audio[0::segmentLength].copy()
+            is_audio_subsampled = is_audio[0::segmentLength]
             num_segments = int(sliceLength / segmentLength)
             if len(is_audio_subsampled) >= num_segments:
                 is_audio_subsampled = is_audio_subsampled[:num_segments]
@@ -86,13 +86,13 @@ def load_data_time_series():
     for i in tqdm(range(testsize)):
         fs, test_sound_data = wavfile.read(DataSetPath + traindata[i]['audio_file_path'])  # Read wavfile to extract amplitudes
 
-        _x_test = test_sound_data.copy()  # Get a mutable copy of the wavfile
+        _x_test = test_sound_data  # Get a mutable copy of the wavfile
 
         label_vec = np.full(int(sliceLength / segmentLength), 0)
         label = traindata[i]['is_hotword']  # Read label
         if label:
             is_audio = detect_audio(test_sound_data)
-            is_audio_subsampled = is_audio[0::segmentLength].copy()
+            is_audio_subsampled = is_audio[0::segmentLength]
             num_segments = int(sliceLength / segmentLength)
             if len(is_audio_subsampled) >= num_segments:
                 is_audio_subsampled = is_audio_subsampled[:num_segments]
