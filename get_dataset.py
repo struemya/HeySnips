@@ -5,7 +5,6 @@ from scipy.signal import medfilt
 import tensorflow as tf
 from tensorflow.keras import layers, models, regularizers
 from tqdm import tqdm
-from vad import VoiceActivityDetector
 import matplotlib.pyplot as plt
 DataSetPath = "/content/drive/MyDrive/Datasets/hey_snips_research_6k_en_train_eval_clean_ter/"
 
