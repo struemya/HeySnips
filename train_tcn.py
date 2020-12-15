@@ -29,12 +29,16 @@ try:
   #assert 1
 except:
   x_train, y_train, x_test, y_test = load_data_time_series()
-  #x_train, y_train, x_test, y_test = load_data_fixed_length()
-  x_train_mfcc = np.array(list(map(lambda x: logfbank(x), x_train)))
-  pickle.dump((x_train_mfcc, y_train), open("train_set.p", "wb"))
-  x_test_mfcc = np.array(list(map(lambda x: logfbank(x), x_test)))
-  pickle.dump((x_test_mfcc, y_test), open("test_set.p", "wb"))
+  # #x_train, y_train, x_test, y_test = load_data_fixed_length()
+  x_train_mfcc = np.array(list(map(lambda x: logfbank(x), tqdm(x_train))))
+  pickle.dump((x_train_mfcc, y_train), open("train_set.p", "wb"), protocol=4)
+  x_test_mfcc = np.array(list(map(lambda x: logfbank(x), tqdm(x_test))))
+  pickle.dump((x_test_mfcc, y_test), open("test_set.p", "wb"), protocol=4)
 
+y_train = np.array(y_train)[:,:999]
+y_test = y_test[:,:999]
+pickle.dump((x_train_mfcc,y_train ), open("train_set2.p", "wb"), protocol=4)
+pickle.dump((x_test_mfcc, y_test), open("test_set2.p", "wb"), protocol=4)
 plt.figure()
 for i in range(100):
   plt.plot(np.mean(x_train_mfcc[i], axis=-1), label='data', alpha=0.7)
