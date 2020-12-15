@@ -47,8 +47,8 @@ def main(_):
   )
 
   # get dataset
-  test_set, test_labels = get_dataset(FLAGS.data_root, TRAINING_FLAGS['num_feat'], TRAINING_FLAGS['slice_length'], type='test',
-                                        return_sequences=TRAINING_FLAGS['return_sequences']) #TRAINING_FLAGS['data_root']
+  test_set, test_labels = get_dataset(TRAINING_FLAGS['data_root'], TRAINING_FLAGS['num_feat'], TRAINING_FLAGS['slice_length'], type='test',
+                                        return_sequences=TRAINING_FLAGS['return_sequences'])
 
 
   sequence_length = test_set.shape[1]
