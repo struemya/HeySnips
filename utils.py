@@ -2,19 +2,22 @@ from tensorflow.keras.metrics import Metric, FalsePositives, FalseNegatives
 import numpy as np
 import tensorflow as tf
 class MetricWrapper(Metric):
-  def __init__(self, keras_metric):
-    super(MetricWrapper, self).__init__(name="wrapped_" + keras_metric.name)
+  def __init__(self, keras_metric, dims=3):
+    super(MetricWrapper, self).__init__(name=keras_metric.name)
     self.metric = keras_metric
+    self.dims = dims
   def update_state(self, y_true, y_pred, sample_weight=None):
-
-    y_pred = y_pred[:, :, 1]
+    if self.dims == 3:
+      y_pred = y_pred[:, :, 1]
+    else:
+      y_pred = y_pred[:, 1]
     self.metric.update_state(y_true, y_pred, sample_weight)
   def result(self):
     return self.metric.result()
   def reset_states(self):
     self.metric.reset_states()
   def get_config(self):
-    self.metric.get_config()
+    return {'dims': self.dims}
 
 METRICS = [
       tf.keras.metrics.TruePositives(name='tp'),
