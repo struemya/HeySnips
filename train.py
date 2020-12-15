@@ -60,7 +60,7 @@ flags.DEFINE_float('lr',
                    'Learning rate used during training.',
                    lower_bound=0.0)
 flags.DEFINE_integer('patience',
-                     100,
+                     150,
                      'Hyperparameter for early stopping.',
                      lower_bound=1)
 flags.DEFINE_integer('nr_classes',
@@ -120,6 +120,7 @@ def get_experiment_folder():
     exp_name = '_'.join([
       exp_name, 'stacks' + str(FLAGS.num_stacks),
                 'filters' + str(FLAGS.num_filters),
+                'dil' + str(FLAGS.dilation_stages)
     ])
     if FLAGS.bn:
       exp_name = '_'.join([
