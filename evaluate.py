@@ -13,7 +13,7 @@ import pickle
 import sklearn.decomposition
 from utils import MetricWrapper
 from get_dataset import get_dataset
-from model import get_tcn
+from model import get_tcn, get_cnn
 import pprint
 
 # Define Flags.
@@ -63,15 +63,13 @@ def main(_):
                     return_sequences=TRAINING_FLAGS['return_sequences'],
                     dilation_stages=TRAINING_FLAGS['dilation_stages'])
   elif TRAINING_FLAGS['model'] == 'cnn':
-    model = None
+    model = get_cnn((sequence_length, feature_dim))
 
 
   else:
     assert False, 'Unknown model!'
 
-  tf.io.gfile.copy(os.path.join(exp_folder, 'model.h5'),
-                   '/tmp/temp.h5',
-                   overwrite=True)
+
   #model(tf.zeros_like((sequence_length, feature_dim), axis=0))
   model.load_weights(os.path.join(exp_folder, 'model.h5'))
   model.compile()
