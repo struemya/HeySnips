@@ -12,7 +12,7 @@ for ex in experiments:
   with open(ex, "rb",) as input_file:
     e = pickle.load(input_file)
     metrics_list.append(e)
-    names.append(ex.split('/')[-4].split('tcn_')[-1])
+    names.append(ex.split('/')[-4].split('250_')[-1])
 
 plt.figure()
 x_metric = 'parameters'

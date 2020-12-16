@@ -70,7 +70,7 @@ def main(_):
     assert False, 'Unknown model!'
 
 
-  #model(tf.zeros_like((sequence_length, feature_dim), axis=0))
+  model(tf.zeros_like((sequence_length, feature_dim), axis=0))
   model.load_weights(os.path.join(exp_folder, 'model.h5'))
   model.compile()
   parameters = model.count_params()
