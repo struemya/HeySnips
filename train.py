@@ -31,7 +31,7 @@ import numpy as np
 
 from tensorflow.keras.losses import sparse_categorical_crossentropy, binary_crossentropy
 from callbacks import CustomModelCheckpoint
-from model import get_tcn
+from model import get_tcn, get_cnn
 
 # Define Flags.
 flags.DEFINE_string('data_root',
@@ -182,7 +182,7 @@ def main(_):
                     return_sequences=FLAGS.return_sequences,
                     dilation_stages=FLAGS.dilation_stages)
   elif FLAGS.model == 'cnn':
-    model = None
+    model = get_cnn((sequence_length, feature_dim))
 
   METRICS = [
     tf.keras.metrics.TruePositives(name='tp'),
