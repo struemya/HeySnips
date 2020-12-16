@@ -19,7 +19,7 @@ import pprint
 # Define Flags.
 flags.DEFINE_string(
     'exp_name',
-    'HeySnipsSequence_batch_size64_epochs250_lr1e-05_tcn_feat20_len3_stacks3_filters16_dil5_bn_skip',
+    'HeySnipsSequence_batch_size64_epochs250_lr0.0001_cnn_feat13_len3',
     'Name of the experiment to be evaluated.')
 flags.DEFINE_integer('exp_nr', 0, 'Experiment number.', lower_bound=0)
 
@@ -47,10 +47,12 @@ def main(_):
   )
 
   # get dataset
-  test_set, test_labels = get_dataset(TRAINING_FLAGS['data_root'], TRAINING_FLAGS['num_feat'], TRAINING_FLAGS['slice_length'], type='test',
-                                        return_sequences=TRAINING_FLAGS['return_sequences'])
+  # test_set, test_labels = get_dataset(TRAINING_FLAGS['data_root'], TRAINING_FLAGS['num_feat'], TRAINING_FLAGS['slice_length'], type='test',
+  #                                       return_sequences=TRAINING_FLAGS['return_sequences'])
 
-
+  test_set, test_labels = get_dataset('.', TRAINING_FLAGS['num_feat'],
+                                      TRAINING_FLAGS['slice_length'], type='test',
+                                      return_sequences=TRAINING_FLAGS['return_sequences'])
   sequence_length = test_set.shape[1]
   feature_dim = test_set.shape[2]
   if TRAINING_FLAGS['model'] == 'tcn':
@@ -70,7 +72,7 @@ def main(_):
     assert False, 'Unknown model!'
 
 
-  model(tf.zeros_like((sequence_length, feature_dim)))
+  model(tf.zeros((1, sequence_length, feature_dim)))
   model.load_weights(os.path.join(exp_folder, 'model.h5'))
   model.compile()
   parameters = model.count_params()
