@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 import glob
 import pickle5 as pickle
 
+#Set experiment glob here
 exp_glob = 'exp/*lr0.001*feat*/*/test/metrics.p'
-#exp_glob = 'exp/HeySnipsSequence_batch_size64_epochs250_lr*_tcn_feat20_len3_stacks3_filters16_dil5_bn_skip/*/test/metrics.p'
 experiments = glob.glob(exp_glob)
 
 metrics_list = []
@@ -12,7 +12,7 @@ for ex in experiments:
   with open(ex, "rb",) as input_file:
     e = pickle.load(input_file)
     metrics_list.append(e)
-    names.append(ex.split('/')[-4].split('250_')[-1])
+    names.append(ex)
 
 plt.figure()
 x_metric = 'parameters'

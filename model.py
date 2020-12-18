@@ -2,9 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Dense, Flatten, Reshape, Softmax, Conv2D, BatchNormalization, GlobalAveragePooling2D, MaxPool2D, ReLU
 from tensorflow.keras import Input, Model
 from tensorflow.keras.regularizers import l1
-# import sys
-# sys.path.append('keras-tcn')
-from tcn import TCN, tcn_full_summary
+from tcn import TCN
 from tcn import MyConv1D
 
 def get_tcn(seq_len, feature_dim, output_dim=2, nb_filters=8, nb_stacks=3, use_skip_connections=True, return_sequences=True, use_batch_norm=True, dilation_stages=5):

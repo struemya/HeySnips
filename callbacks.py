@@ -1,6 +1,5 @@
 # Lint as: python3
 """Custom Keras Callbacks."""
-
 import tensorflow as tf
 
 class CustomModelCheckpoint(tf.keras.callbacks.ModelCheckpoint):
