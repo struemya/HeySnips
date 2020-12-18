@@ -37,8 +37,8 @@ except:
 
 y_train = np.array(y_train)[:,:999]
 y_test = y_test[:,:999]
-pickle.dump((x_train_mfcc,y_train ), open("train_set2.p", "wb"), protocol=4)
-pickle.dump((x_test_mfcc, y_test), open("test_set2.p", "wb"), protocol=4)
+#pickle.dump((x_train_mfcc,y_train ), open("train_set2.p", "wb"), protocol=4)
+#pickle.dump((x_test_mfcc, y_test), open("test_set2.p", "wb"), protocol=4)
 plt.figure()
 for i in range(100):
   plt.plot(np.mean(x_train_mfcc[i], axis=-1), label='data', alpha=0.7)

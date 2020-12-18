@@ -1,10 +1,17 @@
+
+'''
+The TCN implementation here is based on the Package keras-tcn with special optimizations
+for the use on Microcontrollers. In particular all Causal 1D Convolutions are replaced by
+2D Convolutions with custom padding. Accordingly, the network is adjusted to work with an aditional dimension,
+hence it work on an input shape of batch_dim x 1 x sequence_length x feature_dim.
+'''
 import inspect
 from typing import List
 
 from tensorflow.keras import backend as K, Model, Input, optimizers
 from tensorflow.keras import layers
-from tensorflow.keras.layers import Activation, SpatialDropout1D, Lambda
-from tensorflow.keras.layers import Layer, Conv1D, Conv2D, Dense, BatchNormalization, LayerNormalization, Reshape
+from tensorflow.keras.layers import Activation, Lambda
+from tensorflow.keras.layers import Layer, Conv2D, Dense, BatchNormalization, LayerNormalization, Reshape
 import tensorflow as tf
 
 def is_power_of_two(num: int):
