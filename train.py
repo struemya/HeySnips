@@ -1,21 +1,20 @@
 # Lint as: python3
 """Training script."""
-# # Import mlcompute module to use the optional set_mlc_device API for device selection with ML Compute.
-# from tensorflow.python.compiler.mlcompute import mlcompute
-#
-# # Select CPU device.
-# mlcompute.set_mlc_device(device_name='gpu')
-
 import os
+
+import numpy as np
+import tensorflow as tf
 import yaml
 from absl import app
 from absl import flags
-from tensorflow.python.keras.callbacks import ModelCheckpoint
-from utils import MetricWrapper
-from get_dataset import get_dataset
-import tensorflow as tf
 from sklearn.utils import class_weight
-import numpy as np
+from tensorflow.keras.losses import sparse_categorical_crossentropy
+from tensorflow.python.keras.callbacks import ModelCheckpoint
+
+from get_dataset import get_dataset
+from model import get_tcn, get_cnn
+from utils import MetricWrapper
+
 # #############################################
 # ### Fixes: tensorflow.python.framework.errors_impl.UnknownError:  Failed to get convolution algorithm.
 # ### https://github.com/tensorflow/tensorflow/issues/24828
@@ -26,12 +25,6 @@ import numpy as np
 # config.gpu_options.allow_growth = True
 # session = InteractiveSession(config=config)
 # #############################################
-
-
-
-from tensorflow.keras.losses import sparse_categorical_crossentropy, binary_crossentropy
-from callbacks import CustomModelCheckpoint
-from model import get_tcn, get_cnn
 
 # Define Flags.
 flags.DEFINE_string('data_root',

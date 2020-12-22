@@ -24,7 +24,7 @@ python train.py --flag1 <value1> --flag2 <value2>
 ## evaluate.py:
 Evaluate Model performance using:
 ```
-python evaluate --exp_root "path to experiments root" --exp_name "name of the experiment folder" --exp_nr "number of the experiment"
+python evaluate.py --exp_root "path to experiments root" --exp_name "name of the experiment folder" --exp_nr "number of the experiment"
 ```
 Creates pickle file "metrics.p" in the test folder of the experiment.
 

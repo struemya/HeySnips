@@ -2,19 +2,17 @@
 """Evaluation script."""
 
 import os
+import pickle
+import pprint
+
+import tensorflow as tf
 import yaml
 from absl import app
 from absl import flags
-import numpy as np
-import sklearn.mixture
-import tensorflow as tf
-import tqdm
-import pickle
-import sklearn.decomposition
-from utils import MetricWrapper
+
 from get_dataset import get_dataset
 from model import get_tcn, get_cnn
-import pprint
+from utils import MetricWrapper
 
 # Define Flags.
 flags.DEFINE_string(
