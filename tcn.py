@@ -26,6 +26,11 @@ def adjust_dilations(dilations: list):
 
 
 class MyConv1D(Layer):
+  """Custom 1D convolution with Padding
+  If padding='causal' this adds padding to the time dimension into the past the same way it would be done with 1D
+  convolutions but with an extra dimension. This allows implementation of this model on GAP8.
+  If padding!='causal' it will just use valid padding for the Conv2D.
+  """
   def __init__(self,
                filters: int,
                kernel_size: int,

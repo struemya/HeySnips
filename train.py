@@ -15,17 +15,6 @@ from get_dataset import get_dataset
 from model import get_tcn, get_cnn
 from utils import MetricWrapper
 
-# #############################################
-# ### Fixes: tensorflow.python.framework.errors_impl.UnknownError:  Failed to get convolution algorithm.
-# ### https://github.com/tensorflow/tensorflow/issues/24828
-# from tensorflow.compat.v1 import ConfigProto
-# from tensorflow.compat.v1 import InteractiveSession
-#
-# config = ConfigProto()
-# config.gpu_options.allow_growth = True
-# session = InteractiveSession(config=config)
-# #############################################
-
 # Define Flags.
 flags.DEFINE_string('data_root',
                     '.',
@@ -188,12 +177,12 @@ def main(_):
     tf.keras.metrics.AUC(name='auc'),
   ]
 
+  #wrap binary metric to make them work with sparse categorical crossentropy
   wrapped_metrics = list(map(lambda m: MetricWrapper(m), METRICS))
   callbacks = [
     tf.keras.callbacks.TensorBoard(log_dir=exp_folder, write_graph=True),
     tf.keras.callbacks.EarlyStopping(patience=FLAGS.patience),
     ModelCheckpoint(filepath=os.path.join(exp_folder, 'model.h5'), save_best_only=True),
-    # profile_batch = 0 ==> workaround for https://github.com/tensorflow/tensorboard/issues/2084
     tf.keras.callbacks.ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=100)
     ]
 
@@ -201,7 +190,7 @@ def main(_):
     model.compile(
       optimizer=optimizer,
       loss=loss_func,
-      metrics=['accuracy'],
+      metrics=['accuracy'], #add metrics if wished
       sample_weight_mode='temporal'
     )
 
@@ -209,11 +198,11 @@ def main(_):
                                                      classes=[0, 1],
                                                      y=train_labels.flatten())
 
+    #temporal sample weighting: give higher weight to timesteps that are labelled as 1 (rare class)
     sample_weight = train_labels * class_weights[1] + class_weights[0] - train_labels * class_weights[0]
     train_labels = np.expand_dims(train_labels, axis=-1) #necessary because tf complains otherwise that data is not temporal
 
     # train model
-
     history = model.fit(
       train_set, train_labels,
       epochs=FLAGS.epochs,
@@ -228,6 +217,8 @@ def main(_):
       loss=loss_func,
       metrics=['accuracy']
     )
+
+    #use class weights to counteract class imbalance
     class_weights = class_weight.compute_class_weight('balanced',
                                                      classes=[0, 1],
                                                      y=train_labels)

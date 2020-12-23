@@ -67,13 +67,17 @@ def main(_):
   else:
     assert False, 'Unknown model!'
 
-
+  #evaluate the model to make sure it is built
   model(tf.zeros((1, sequence_length, feature_dim)))
+
   model.load_weights(os.path.join(exp_folder, 'model.h5'))
   model.compile()
+
+  #count the numper of parameters in the model
   parameters = model.count_params()
   pred_labels = model.predict(test_set, batch_size=64, use_multiprocessing=True, workers=8)
 
+  #define metrics
   METRICS = [
     tf.keras.metrics.TruePositives(name='tp'),
     tf.keras.metrics.FalsePositives(name='fp'),
@@ -84,6 +88,7 @@ def main(_):
     tf.keras.metrics.Recall(name='recall'),
     tf.keras.metrics.AUC(name='auc'),
   ]
+  #wrap metrics to be compatible with categorical output
   wrapped_metrics = list(map(lambda m: MetricWrapper(m, dims=2), METRICS))
 
   res = {}
@@ -92,6 +97,7 @@ def main(_):
     res[m.name] = m.result().numpy()
   res['parameters'] = parameters
 
+  #store metrics in pickle file
   with open(os.path.join(exp_folder, 'test/metrics.p'), 'wb') as handle:
     pickle.dump(res, handle, protocol=pickle.HIGHEST_PROTOCOL)
   pprint.pprint(res)

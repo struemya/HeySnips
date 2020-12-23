@@ -1,5 +1,5 @@
 # Lint as: python3
-"""Quantization script script."""
+"""Evaluate Quantization script"""
 
 import os
 import pickle
