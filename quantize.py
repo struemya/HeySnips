@@ -1,4 +1,4 @@
-"""Quantization script script."""
+"""Quantization script."""
 
 import os
 
